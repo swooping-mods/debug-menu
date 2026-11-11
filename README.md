@@ -1,5 +1,7 @@
 # Debug Menu
 
+<img src="media/icon.png" alt="Debug Menu icon" width="128" height="128">
+
 F4 opens in-game test controls, movement tools and diagnostics.
 
 ## Install
