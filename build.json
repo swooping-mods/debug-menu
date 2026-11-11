@@ -1,0 +1,6 @@
+{
+  "schema": "moon-independent-build-spec/v1",
+  "id": "debug-menu",
+  "kind": "native",
+  "entry": "mods/debug-menu/mod.c"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "debug-menu",
+  "kind": "native",
+  "version": "0.1.0",
+  "display_name": "Debug Menu",
+  "gameplay": true,
+  "feature_dependencies": [],
+  "play_help": [
+    "Load the disposable world, then press F4 to open Debug Menu.",
+    "Use the panel for funds, catalogs, movement and diagnostic snapshots."
+  ]
+}
