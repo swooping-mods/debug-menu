@@ -62,6 +62,7 @@ static void dsnapshot(const char *kind){
     p=cat(p,",\"funds\":");p=num(p,dm.funds);p=cat(p,",\"funds_ok\":");p=num(p,(U64)dm.funds_ok);p=cat(p,",\"flying\":");p=num(p,(U64)dm.fly);p=cat(p,",\"speed\":");p=ddecimal(p,dm.current_speed);
     p=cat(p,",\"position\":[");p=ddecimal(p,dm.position_value.x);p=cat(p,",");p=ddecimal(p,dm.position_value.y);p=cat(p,",");p=ddecimal(p,dm.position_value.z);p=cat(p,"]}\n");DWORD n=0;WriteFile(debug_log,b,(DWORD)(p-b),&n,0);FlushFileBuffers(debug_log);
 }
+#include "render_snapshot.h"
 static void dvehicle(PTR walker,int board,int *ok){
     int inactive=0,sort=0;const char *type=board?"MoonPrototypeVehicle":"MoonPrototypeEquipment";
     void *a[]={dtype("MoonCleaners",type),&inactive,&sort};DRoot objects=dhold(call(dm.find_objects,0,a,ok));
@@ -100,7 +101,7 @@ static void daction(DMAction action){
         if(action==DM_LIFT){DVec up=dvector(dm.up,call(dm.transform,walker,0,&ok),&ok);position=(DVec){dm.position_value.x+3*up.x,dm.position_value.y+3*up.y,dm.position_value.z+3*up.z};}
         unsigned char refresh=1;void *a[]={&position,&refresh};call(dm.teleport,walker,a,&ok);
     }else if(action==DM_VEHICLE||action==DM_BOARD){dclose();dvehicle(walker,action==DM_BOARD,&ok);}
-    else if(action==DM_SNAPSHOT){dm.snapshots++;dsnapshot("snapshot");}
+    else if(action==DM_SNAPSHOT){dm.snapshots++;dsnapshot("snapshot");dr_census();}
     dm.status=ok?"Action complete":"Unavailable in the current situation";
     dm.last_action=(int)action;
     if(ok){dm.position_value=dpos(walker,&ok);dm.fly=boolean(dm.flying,walker,&ok);dm.current_speed=dnumber(dm.speed,walker,&ok);dm.funds_ok=1;dm.funds=dbalance(world,&dm.funds_ok);dsnapshot("action-state");}
